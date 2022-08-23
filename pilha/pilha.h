@@ -41,6 +41,11 @@ item topoPilha(pilha* p);
 
 
 
+/* Testa se a pilha está vazia */
+bool pilhaVazia(pilha* p);
+
+
+
 /* Imprime os conteúdos da pilha */
 void printPilha(pilha* p);
 
