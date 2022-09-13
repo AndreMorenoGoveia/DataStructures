@@ -5,17 +5,6 @@
 
 
 
-/* Permite uma entrada padrão a função adicionaALista e removeDaLista */
-int indexPadrao = -1;
-#define adicionaALista(...) vrg(adicionaALista, __VA_ARGS__)
-#define adicionaALista1(n, i) add(n, i, indexPadrao)
-#define adicionaAlista2(n, i, index) add(n, i, index)
-#define removeDaLista(...) vrg(removeDaLista, __VA_ARGS__)
-#define adicionaALista1(n) pop(n, indexPadrao)
-#define adicionaAlista2(n, index) pop(n, index)
-
-
-
 
 /* Define o tipo do item armazenado na lista. Para alterar troque o int pelo desejado */ 
 typedef int item;
@@ -26,7 +15,7 @@ typedef int item;
 typedef struct Node {
 
     item i;
-    Node* next;
+    struct Node* next;
 
 } Node;
 
@@ -37,9 +26,9 @@ Node* criaLista(item i);
 
 
 
-/* Adiciona um item a no index desejado ou ao final da lista caso deixe vazio o 
+/* Adiciona um item a no index desejado ou ao final da lista caso deixe com -1 o 
    parâmetro index */
-void add(Node* n, item i, int index);
+void adicionaLista(Node* n, item i, int index);
 
 
 
@@ -49,7 +38,7 @@ item pegaDaLista(Node* n, int index);
 
 
 /* Retorna o index do item desejado da lista através de uma busca linear */
-int buscaDaLista(item i);
+int buscaDaLista(Node* n, item i);
 
 
 
@@ -58,8 +47,8 @@ bool listaVazia(Node* n);
 
 
 
-/* Remove um item da lista e o retorna e caso não haja index o ultimo item é removido */
-item pop(Node* n, int index);
+/* Remove um item da lista e o retorna e caso o index seja -1 ultimo item é removido */
+item removeLista(Node* n, int index);
 
 
 
