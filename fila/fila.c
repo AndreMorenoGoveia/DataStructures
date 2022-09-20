@@ -2,29 +2,65 @@
 
 
 
-fila* criaFila(fila* f, int tamanho, bool expansivel, item i){
+fila* criaFila(int tamanho, bool expansivel){
 
-    f->vec = (item*) malloc(tamanho*sizeof(item));
+    fila* f;
+    f->elementos = (item*) malloc(tamanho*sizeof(item));
+    f->inicio = -1;
+    f->final = -1;
     f->expansivel = expansivel;
-    f->tamMax = tamanho;
     f->tam = 0;
-    return f;
+    f->tamMax = tamanho;
 
 }
 
 
 
-/* Entra um item na fila */
-item entra(fila* f, item i);
+void entra(fila* f, item i){
+
+    if(filaVazia(f)){
+
+        f->inicio = 0;
+        f->final = 0;
+        f->elementos[0] = i;
+        f->tam++;
+
+    }
+    else{
+
+        if(f->tam < f->tamMax){
+
+            f->inicio = (f->inicio + 1) % f->tamMax;
+            f->elementos[f->inicio] = i;
+            f->tam++;
+
+        }
+        else{ realoca(f); entra(f, i); }
+
+    }
+
+}
 
 
 
-/* Sai um item da fila */
-item sai(fila* f);
+item sai(fila* f){
+
+    if(!filaVazia(f)){
+
+        item it;
+
+        it = f->elementos[f->final];
+        f->final = (f->final + 1) % f->tamMax;
+        f->tam--;
+
+        return it;
+
+    }
+
+}
 
 
 
-/* Testa se a pilha está vazia */
 bool filaVazia(fila* f){
 
     return f->tam == 0;
@@ -33,30 +69,63 @@ bool filaVazia(fila* f){
 
 
 
-/* Retorna o tamanho atual da fila */
-int tamanhoFila(fila* f){
-
-    return f->tam;
-
-}
-
-
-
-/* Expande o tamanho da memória alocada para 2X o tamanho atual */
-void realloca(fila* f){
-
-    f->vec = (item*) realloc(f->vec, f->tamMax*2*sizeof(item));
-    f->tamMax *= 2;
-
-}
-
-
-
-/* Imprime no console o estado atual da fila (adaptado para imprimir itens int) */
 void imprimeFila(fila* f){
 
-    if(filaVazia(f))
-        printf("A fila esta vazia\n")
 
+    if(filaVazia(f))
+        printf("A fila esta vazia\n");
+
+    else if(f->tam == 1)
+        printf("Fila --> %d\n", f->elementos[f->final]);
+
+    else{
+
+        int i;
+
+        printf("Fim --> ");
+
+        for(i = f->final; i != f->inicio; i = (i + 1) % f->tamMax)
+            printf("%d ", f->elementos[i]);
+        
+
+        printf("%d <-- Inicio\n", f->elementos[f->inicio]);
+
+    }
+
+}
+
+
+
+void realoca(fila* f){
+
+    if(!f->expansivel)
+        printf("A fila esta lotada\n");
+
+    else{
+
+        int i;
+
+        f->tamMax *= 2;
+        item* novo = (item*) malloc(f->tamMax*sizeof(item));
+
+        for(i = 0; i < f->tam; i++)
+            novo[i] = f->elementos[(f->final + i) % f->tam];
+
+        free(f->elementos);
+
+        f->elementos = novo;
+
+        f->inicio = f->tam - 1;
+        f->final = 0;
+
+    }
+
+}
+
+
+
+void destroiFila(fila* f){
+
+    free(f->elementos);
 
 }

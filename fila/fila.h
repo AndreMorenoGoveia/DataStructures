@@ -9,46 +9,48 @@ typedef int item;
 
 
 /* Estrutura da fila */
-typedef struct{
+typedef struct {
 
+    item* elementos;
+    int inicio;
+    int final;
     int tam;
     int tamMax;
     bool expansivel;
-    item* vec;
 
 } fila;
 
 
 
-/* Aloca dinamicamente a memória para a fila de acordo com o tamanho especificado */
-fila* criaFila(fila* f, int tamanho, bool expansivel);
+/* Retorna o ponteiro para uma fila configurada e com os itens dinamicamente alocados */
+fila* criaFila(int tamanho, bool expansivel);
 
 
 
 /* Entra um item na fila */
-item entra(fila* f, item i);
+void entra(fila* f, item i);
 
 
 
-/* Sai um item da fila */
+/* Sai um item da fila que é retornado */
 item sai(fila* f);
 
 
 
-/* Testa se a pilha está vazia */
+/* Testa se a fila está vazia */
 bool filaVazia(fila* f);
-
-
-
-/* Retorna o tamanho atual da fila */
-int tamanhoFila(fila* f);
-
-
-
-/* Expande o tamanho da memória alocada para 2X o tamanho atual */
-void realloca(fila* f);
 
 
 
 /* Imprime no console o estado atual da fila (adaptado para imprimir itens int) */
 void imprimeFila(fila* f);
+
+
+
+/* Função que aumenta o tamanho da memória alocada para a fila, dobrado-a */
+void realoca(fila* f);
+
+
+
+/* Função responsavel por liberar a memória alocada */
+void destroiFila(fila* f);
