@@ -13,7 +13,8 @@ typedef int item;
 typedef struct Node {
 
     item i;
-    struct Node* next;
+    struct Node* frente;
+    struct Node* tras;
 
 } Node;
 
@@ -24,13 +25,13 @@ Node* criaLista();
 
 
 
-/* Adiciona um item ao final da lista*/
-void adicionaLista(Node* n, item i);
+/* Adiciona um item ao final da lista */
+void adicionaLista(Node* n, item it);
 
 
 
-/* Retorna true caso o item tenha sido encontrado na lista */
-bool buscaDaLista(Node* n, item i);
+/* Retorna o index do item desejado da lista através de uma busca linear */
+int buscaDaLista(Node* n, item i);
 
 
 
@@ -39,7 +40,7 @@ bool listaVazia(Node* n);
 
 
 
-/* Remove o último item da lista e o retorna */
+/* Remove o último item da lista */
 item removeLista(Node* n);
 
 

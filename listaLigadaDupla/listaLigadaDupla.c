@@ -1,4 +1,4 @@
-#include "listaLigada.h"
+#include "listaLigadaDupla.h"
 
 
 
@@ -14,10 +14,21 @@ void adicionaLista(Node* n, item it){
 
     if(n == NULL){
         n = (Node*) malloc(sizeof(Node));
-        n->next = NULL;
+        n->frente = NULL;
+        n->tras == NULL;
         n->i = it;
+        return;
     }
-    else adicionaLista(n->next, it);
+
+    if(n->frente == NULL){
+        n->frente = (Node*) malloc(sizeof(Node));
+        n->frente->tras = n;
+        n->frente->frente = NULL;
+        n->frente->i = it;
+        return;
+    }
+
+    return adicionaLista(n->frente, it);
 
 }
 
@@ -31,7 +42,7 @@ bool buscaDaLista(Node* n, item i){
     if(n->i = i)
         return true;
 
-    return buscaDaLista(n->next, i);
+    return buscaDaLista(n->frente, i);
 
 }
 
@@ -52,14 +63,14 @@ item removeLista(Node* n){
 
     item i;
 
-    if(n->next == NULL){
+    if(n->frente == NULL){
         i = n->i;
         free(n);
         n = NULL;
         return i;
     }
 
-    return removeLista(n->next);
+    return removeLista(n->frente);
 
 }
 
@@ -67,7 +78,7 @@ item removeLista(Node* n){
 
 int tamanhoLista(Node* n){
 
-    if(n->next == NULL)
+    if(n->frente == NULL)
         return 1;
 
     return tamanhoLista(n) + 1;
@@ -78,10 +89,10 @@ int tamanhoLista(Node* n){
 
 void printLista(Node* n){
 
-    if(n->next != NULL){
+    if(n->frente != NULL){
 
-        printf("%d --> ", n->i);
-        printLista(n->next);
+        printf("%d <--> ", n->i);
+        printLista(n->frente);
 
     }
 
@@ -94,8 +105,8 @@ void printLista(Node* n){
 
 void destroiLista(Node* n){
 
-    if(n->next != NULL)
-        destroiLista(n->next);
+    if(n->frente != NULL)
+        destroiLista(n->frente);
 
     free(n);
 
